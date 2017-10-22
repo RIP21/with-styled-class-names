@@ -1,4 +1,4 @@
-# withClassNames 🤡
+# withClassNames 🤡 [![npm version](https://badge.fury.io/js/with-class-names.svg)](https://badge.fury.io/js/with-class-names)
 
 This is a tiny helpful utility function for `styled-components` which helps 
 to override 3rd parties components with custom `className` props for their deep
