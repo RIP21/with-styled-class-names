@@ -5,6 +5,16 @@ to override 3rd parties components with custom `className` props for their deep
 nested children or different states. For example `activeClassName`, or 
 `inputClassName` etc.
 
+## Installation
+Yarn:
+```
+yarn add with-class-names
+```
+npm:
+```
+npm install with-class-names --save
+```
+
 ## Usage example
 
 You basically pass 3rd party Component to be styled, and then an object with

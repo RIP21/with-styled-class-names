@@ -5,6 +5,16 @@ to override 3rd parties components with custom `className` props for their deep
 nested children or different states. For example `activeClassName`, or 
 `inputClassName` etc.
 
+## Installation
+Yarn:
+```
+yarn add with-class-names
+```
+npm:
+```
+npm install with-class-names --save
+```
+
 ## Usage example
 
 You basically pass 3rd party Component to be styled, and then an object with
@@ -12,8 +22,10 @@ keys as name of the props, and values as Tagged Template Literals with CSS,
 or with `styled-component` form which styles will be derived. 
 Take a look at the example having both of the options.
 
+[![Edit with-class-names example](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/k9zzro0wm7)
+
 ```jsx harmony
-import withClassNames from 'withClassNames'
+import withClassNames from 'with-class-names'
 import styled, { css } from 'styled-components'
 
 // 3rd party component with nested classNames options
