@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from 'styled-components'
-import reduce from 'lodash.reduce'
 
 const withCustomClassNameProp = (Component, propClass) => ({
   className,
@@ -15,20 +14,18 @@ const withClassNames = (Component, stylesMap) => {
     const RootComponent = strings
       ? styled(Component)(strings, interpolations)
       : Component
-    return reduce(
-      stylesMap,
-      (ResultComponent, value, propClass) => {
-        if (value.name === 'StyledComponent') {
-          return value.withComponent(
-            withCustomClassNameProp(ResultComponent, propClass),
-          )
-        }
-        return styled(withCustomClassNameProp(ResultComponent, propClass))`
-          ${value};
-        `
-      },
-      RootComponent,
-    )
+    return Object.entries(stylesMap).reduce((ResultComponent, entry) => {
+      const propClass = entry[0]
+      const value = entry[1]
+      if (value.name === 'StyledComponent') {
+        return value.withComponent(
+          withCustomClassNameProp(ResultComponent, propClass),
+        )
+      }
+      return styled(withCustomClassNameProp(ResultComponent, propClass))`
+        ${value};
+      `
+    }, RootComponent)
   }
 }
 
