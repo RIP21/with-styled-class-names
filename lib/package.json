@@ -1,0 +1,14 @@
+{
+  "name": "with-class-names",
+  "version": "0.0.1",
+  "description": "Tiny utility function for styled-components helps to override 3rd parties components with custom className props for their deep nested children or different states",
+  "main": "./src/withClassNames.js",
+  "peerDependencies": {
+    "styled-components": "2.2.1",
+    "react-dom": "16.0.0",
+    "react": "16.0.0"
+  },
+  "dependencies": {
+    "lodash.reduce": "4.6.0"
+  }
+}

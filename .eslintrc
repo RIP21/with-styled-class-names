@@ -1,0 +1,33 @@
+{
+  "extends": [
+    "react-app",
+    "prettier",
+    "prettier/react"
+  ],
+  "plugins": [
+    "prettier"
+  ],
+  "rules": {
+    "react/no-string-refs": 2,
+    "react/jsx-boolean-value": 1,
+    "react/no-will-update-set-state": 2,
+    "react/prefer-es6-class": 2,
+    "react/jsx-sort-props": [
+      1,
+      {
+        "callbacksLast": true,
+        "reservedFirst": true,
+        "shorthandFirst": true
+      }
+    ],
+    "react/sort-prop-types": [
+      1,
+      {
+        "callbacksLast": true
+      }
+    ],
+    "react/jsx-no-bind": 2,
+    "prettier/prettier": [1 , {"singleQuote": true, "trailingComma": "all", "semi": false}],
+    "prefer-const": 2
+  }
+}
