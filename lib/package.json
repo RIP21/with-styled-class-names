@@ -1,11 +1,11 @@
 {
   "name": "with-class-names",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Tiny utility function for styled-components helps to override 3rd parties components with custom className props for their deep nested children or different states",
   "main": "./src/withClassNames.js",
   "peerDependencies": {
-    "react": "16.0.0",
-    "react-dom": "16.0.0",
-    "styled-components": "2.2.1"
+    "react": "^15.0.0 || ^16.0.0",
+    "react-dom": "^15.0.0 || ^16.0.0",
+    "styled-components": "^2.0.0"
   }
 }

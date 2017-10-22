@@ -19,8 +19,8 @@ npm install with-class-names --save
 
 You basically pass 3rd party Component to be styled, and then an object with
 keys as name of the props, and values as Tagged Template Literals with CSS, 
-or with `styled-component` form which styles will be derived. 
-Take a look at the example having both of the options.
+or with `styled-component` from which styles will be derived. 
+Take a look at the example that have both of the options.
 
 [![Edit with-class-names example](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/k9zzro0wm7)
 
