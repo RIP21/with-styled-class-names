@@ -36,11 +36,7 @@ const StyledComponent = withClassNames(Component, {
     background: blue;
     border: ${p => p.color} 8px solid;
   `,
-})`
-  background: black;
-  color: white;
-  color: ${props => props.color};
-`
+})()
 
 const App = () => (
   <div>

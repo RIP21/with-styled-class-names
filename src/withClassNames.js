@@ -11,19 +11,23 @@ const withCustomClassNameProp = (Component, propClass) => ({
 
 const withClassNames = (Component, stylesMap) => {
   return (strings, ...interpolations) => {
-    const RootComponent = strings
-      ? styled(Component)(strings, interpolations)
-      : Component
+    const RootComponent =
+      (strings != null && strings.length > 0) ||
+      (strings != null && interpolations.length > 0)
+        ? styled(Component)(strings, interpolations)
+        : Component
     return Object.entries(stylesMap).reduce((ResultComponent, entry) => {
-      const propClass = entry[0]
-      const value = entry[1]
-      if (value.name === 'StyledComponent') {
-        return value.withComponent(
-          withCustomClassNameProp(ResultComponent, propClass),
+      const customClassNameProp = entry[0]
+      const tagOrStyledComponent = entry[1]
+      if (tagOrStyledComponent.name === 'StyledComponent') {
+        return tagOrStyledComponent.withComponent(
+          withCustomClassNameProp(ResultComponent, customClassNameProp),
         )
       }
-      return styled(withCustomClassNameProp(ResultComponent, propClass))`
-        ${value};
+      return styled(
+        withCustomClassNameProp(ResultComponent, customClassNameProp),
+      )`
+        ${tagOrStyledComponent};
       `
     }, RootComponent)
   }

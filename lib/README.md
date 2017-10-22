@@ -1,4 +1,4 @@
-# withClassNames 🤡
+# withClassNames 🤡 [![npm version](https://badge.fury.io/js/with-class-names.svg)](https://badge.fury.io/js/with-class-names)
 
 This is a tiny helpful utility function for `styled-components` which helps 
 to override 3rd parties components with custom `className` props for their deep
@@ -72,10 +72,11 @@ const StyledComponent = withClassNames(Component, {
   background: black;
   color: ${p => p.color};
 `;
+//Note that if you don't need wrapper style, just call nothing ()
 ```
 
 ## Known issues
 
 If you want to interpolations to work for nested classNames please use `css` from 
-`styled-components` for them to work like in the example here. PR Welcome to fix that :)
-I give up trying :D
+`styled-components` for them to work like in the example here. PR Welcome to fix that 😍
+I gave up trying 😇
