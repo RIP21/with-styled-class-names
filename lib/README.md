@@ -1,4 +1,4 @@
-# withClassNames 🤡 [![npm version](https://badge.fury.io/js/with-class-names.svg)](https://badge.fury.io/js/with-class-names)
+# withStyledClassNames 🤡 [![npm version](https://badge.fury.io/js/with-class-names.svg)](https://badge.fury.io/js/with-class-names)
 
 This is a tiny helpful utility function for `styled-components` which helps 
 to override 3rd parties components with custom `className` props for their deep
@@ -22,10 +22,31 @@ keys as name of the props, and values as Tagged Template Literals with CSS,
 or with `styled-component` from which styles will be derived. 
 Take a look at the example that have both of the options.
 
+Simple: 
+```jsx harmony
+import { css } from 'styled-components'
+import withStyledClassNames from 'with-styled-class-names'
+import WithNestedClassNames from './WithNestedClassNames'
+
+const StyledComponent = withStyledClassNames({
+  activeClassName: `
+    color: red;
+  `,
+  inputClassName: css`
+    color: ${p => p.primary && `red`};
+  `
+}, WithNestedClassNames)`
+  margin: 2px;
+  background: blue;
+`
+```
+
+More detailed example:
+
 [![Edit with-class-names example](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/k9zzro0wm7)
 
 ```jsx harmony
-import withClassNames from 'with-class-names'
+import withStyledClassNames from 'with-styled-class-names'
 import styled, { css } from 'styled-components'
 
 // 3rd party component with nested classNames options
@@ -57,7 +78,7 @@ const DerivedFromStyledComponent = styled.div`
 // Usage 
 // arg0: Component to style
 // arg1: (key: NestedClassNameProp, value: Tagged Template Literal/StyledComponent)
-const StyledComponent = withClassNames(Component, {
+const StyledComponent = withStyledClassNames({
   // This className will be populated with class of the DerivedFromStyledComponent  
   nestedClassName: DerivedFromStyledComponent,
   // If you want interpolations to work, use css from `styled-components` (PR welcome 😇)
@@ -68,11 +89,38 @@ const StyledComponent = withClassNames(Component, {
   `
   // Here is the styles of the wrapper. So the one that will come to className
   // as if you call styled(Component)``
-})`
+}, Component)`
   background: black;
   color: ${p => p.color};
 `;
 //Note that if you don't need wrapper style, just call nothing ()
+```
+
+## API
+
+### withStyledClassNames
+Curried for first two parameters `withStyledClassNames({}, Comp) or withStyledClassNames({})(Comp)` is possible.
+Wrapper styles, third parameter, need to be called explicitly with
+tagged template literal like `withStyledClassNames({})(Comp)`` ` or with StyledComponent from which
+to derive styles like `withStyledClassNames({})(Comp)(StyledComponent)`
+
+styledMap: `ClassNamesProps: Object(key: classNameProp, value: TemplateLiteralCSS/StyledComponent)`   
+Component: `Any React Component`  
+wrapperTemplate: `TemplateLiteralCSS/StyledComponent`  
+```
+// All possible combintaions
+
+withStyledClassNames(
+  ClassNamesProps, 
+  Component
+)(StyledComponent)
+
+withStyledClassNames(
+  ClassNamesProps, 
+  Component
+)`TemplateLiteralCSS`
+
+withStyledClassNames(ClassNamesProps)(Component)(TemplateLiteralCSS/StyledComponent)
 ```
 
 ## Known issues

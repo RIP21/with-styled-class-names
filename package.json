@@ -1,9 +1,9 @@
 {
-  "name": "with-class-names",
+  "name": "with-styled-class-names",
   "description": "Tiny utility function for styled-components helps to override 3rd parties components with custom className props for their deep nested children or different states",
-  "version": "0.0.4",
+  "version": "1.0.0",
   "private": true,
-  "main": "./src/withClassNames.js",
+  "main": "./src/withStyledClassNames.js",
   "peerDependencies": {
     "react": "^15.0.0 || ^16.0.0",
     "react-dom": "^15.0.0 || ^16.0.0",
@@ -29,7 +29,7 @@
     "start": "react-app-rewired start",
     "test": "cross-env CI=true react-app-rewired test --env=jsdom",
     "clean": "rimraf lib",
-    "build:es6": "cross-env NODE_ENV=production babel src/withClassNames.js --out-dir lib --ignore test.js",
+    "build:es6": "cross-env NODE_ENV=production babel src/withStyledClassNames.js --out-dir lib --ignore test.js",
     "prebuild": "run-p test clean",
     "build": "run-p build:*",
     "postbuild": "node scripts/copyBuildFiles.js",
@@ -40,5 +40,8 @@
     "presets": [
       "react-app"
     ]
+  },
+  "dependencies": {
+    "lodash.curry": "^4.1.1"
   }
 }

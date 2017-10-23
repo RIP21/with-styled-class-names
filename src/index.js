@@ -3,7 +3,7 @@ import { render } from 'react-dom'
 import styled, { css } from 'styled-components'
 import registerServiceWorker from './createServiceWorker'
 
-import withClassNames from './withClassNames'
+import withStyledClassNames from './withStyledClassNames'
 
 const Component = ({
   className,
@@ -29,18 +29,31 @@ const DerivedFromStyledComponent = styled.div`
   }
 `
 
-const StyledComponent = withClassNames(Component, {
+const StyledComponent = withStyledClassNames(
+  {
+    nestedClassName: DerivedFromStyledComponent,
+    anotherNestedClassName: css`
+      color: white;
+      background: blue;
+      border: ${p => p.color} 8px solid;
+    `,
+  },
+  Component,
+)()
+
+const Curried = withStyledClassNames({
   nestedClassName: DerivedFromStyledComponent,
   anotherNestedClassName: css`
     color: white;
     background: blue;
     border: ${p => p.color} 8px solid;
   `,
-})()
+})(Component)(DerivedFromStyledComponent)
 
 const App = () => (
   <div>
     <StyledComponent color="green" purple="purple" />
+    <Curried color="yellow" purple="blue" />
   </div>
 )
 
