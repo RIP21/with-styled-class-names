@@ -9,17 +9,22 @@ const Component = ({
   className,
   nestedClassName,
   anotherNestedClassName,
+  objectClassNamesList = { first: {}, second: {} },
   ...props
-}) => (
-  <div className={className} {...props}>
-    {'Root'}
-    <div className={nestedClassName}>
-      {'Nested One Level'}
-      <div className={anotherNestedClassName}>Another nested</div>
+}) => {
+  const { first, second } = objectClassNamesList
+  return (
+    <div className={className} {...props}>
+      {'Root'}
+      <div className={nestedClassName}>
+        {'Nested One Level'}
+        <div className={anotherNestedClassName}>Another nested</div>
+        <div className={first}>Another first</div>
+        <div className={second}>Another second</div>
+      </div>
     </div>
-  </div>
-)
-
+  )
+}
 const DerivedFromStyledComponent = styled.div`
   background: palevioletred;
   color: ${props => props.purple};
@@ -27,6 +32,10 @@ const DerivedFromStyledComponent = styled.div`
   &:hover {
     background: mediumaquamarine;
   }
+`
+
+const Derived = styled.div`
+  background: white;
 `
 
 const StyledComponent = withStyledClassNames(
@@ -37,6 +46,13 @@ const StyledComponent = withStyledClassNames(
       background: blue;
       border: ${p => p.color} 8px solid;
     `,
+    objectClassNameListProp: {
+      first: css`
+        background: black;
+        border: ${p => p.color} 8px solid;
+      `,
+      second: Derived,
+    },
   },
   Component,
 )()
