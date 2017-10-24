@@ -1,6 +1,6 @@
 # withStyledClassNames 🤡 [![npm version](https://badge.fury.io/js/with-styled-class-names.svg)](https://badge.fury.io/js/with-styled-class-names)
 
-This is a tiny helpful utility function for `styled-components` which helps 
+This is a tiny (666 bytes gzipped) zero dependency helpful utility function for `styled-components` which helps 
 to override 3rd parties components with custom `className` props for their deep
 nested children or different states. For example `activeClassName`, or 
 `inputClassName` etc.
