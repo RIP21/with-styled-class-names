@@ -54,16 +54,22 @@ const Component = ({
   className,
   nestedClassName,
   anotherNestedClassName,
+  objectClassNamesList = { first: {}, second: {} },
   ...props
-}) => (
-  <div className={className} {...props}>
-    {"Root"}
-    <div className={nestedClassName}>
-      {"Nested One Level"}
-      <div className={anotherNestedClassName}>Another nested</div>
+}) => {
+  const { first, second } = objectClassNamesList
+  return (
+    <div className={className} {...props}>
+      {'Root'}
+      <div className={nestedClassName}>
+        {'Nested One Level'}
+        <div className={anotherNestedClassName}>Another nested</div>
+        <div className={first}>Another first</div>
+        <div className={second}>Another second</div>
+      </div>
     </div>
-  </div>
-);
+  )
+}
 
 // styled-component which from you would like to derive styles
 const DerivedFromStyledComponent = styled.div`
@@ -86,7 +92,12 @@ const StyledComponent = withStyledClassNames({
     color: white;
     background: blue;
     border: ${p => p.color} 8px solid;
-  `
+  `,
+  // Nested 1 lvl deep classNamesProps supported too (like react-modal)
+  objectClassNamesList: {
+    first: `background: red;`,
+    second: DerivedFromStyledComponent,
+  }
   // Here is the styles of the wrapper. So the one that will come to className
   // as if you call styled(Component)``, also you can pass (StyledComponent) 
   // to derive styles from it, as you would call StyledComponent.withComponent(Component)
