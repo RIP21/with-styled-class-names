@@ -88,7 +88,8 @@ const StyledComponent = withStyledClassNames({
     border: ${p => p.color} 8px solid;
   `
   // Here is the styles of the wrapper. So the one that will come to className
-  // as if you call styled(Component)``
+  // as if you call styled(Component)``, also you can pass (StyledComponent) 
+  // to derive styles from it, as you would call StyledComponent.withComponent(Component)
 }, Component)`
   background: black;
   color: ${p => p.color};
