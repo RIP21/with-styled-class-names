@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const withCustomClassNameProp = (Component, propClass, keyToNest = null) => ({
+const withCustomClassNameProp = (Component, propClass, keyToNest) => ({
   className,
   ...rest
 }) => {
@@ -16,7 +16,7 @@ const withCustomClassNameProp = (Component, propClass, keyToNest = null) => ({
   return <Component {...props} />
 }
 
-const injectControlledClassNames = (stylesMap, Component, keyToNest = null) =>
+const injectControlledClassNames = (stylesMap, Component, keyToNest) =>
   Object.entries(stylesMap).reduce((ResultComponent, entry) => {
     const customClassNameProp = entry[0]
     const tagOrStyledComponent = entry[1]

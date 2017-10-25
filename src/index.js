@@ -1,7 +1,6 @@
 import React from 'react'
 import { render } from 'react-dom'
 import styled, { css } from 'styled-components'
-import registerServiceWorker from './createServiceWorker'
 
 import withStyledClassNames from './withStyledClassNames'
 
@@ -74,4 +73,3 @@ const App = () => (
 )
 
 render(<App />, document.getElementById('root'))
-registerServiceWorker()
