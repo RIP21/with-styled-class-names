@@ -1,7 +1,7 @@
 {
   "name": "with-styled-class-names",
   "description": "Tiny utility function for styled-components helps to override 3rd parties components with custom className props for their deep nested children or different states",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "private": true,
   "main": "./src/withStyledClassNames.js",
   "peerDependencies": {
@@ -12,9 +12,14 @@
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-plugin-styled-components": "^1.2.0",
+    "codecov": "^3.0.0",
     "cross-env": "^5.0.5",
+    "enzyme": "^3.1.0",
+    "enzyme-adapter-react-16": "^1.0.2",
     "eslint-config-prettier": "^2.6.0",
     "eslint-plugin-prettier": "^2.3.1",
+    "jest-enzyme": "^4.0.1",
+    "jest-styled-components": "^4.9.0",
     "npm-run-all": "^4.1.1",
     "prettier": "^1.7.2",
     "react": "16.0.0",
@@ -23,11 +28,13 @@
     "react-dom": "16.0.0",
     "react-scripts": "1.0.14",
     "rimraf": "^2.6.2",
-    "styled-components": "2.2.1"
+    "styled-components": "2.2.2"
   },
   "scripts": {
     "start": "react-app-rewired start",
     "test": "cross-env CI=true react-app-rewired test --env=jsdom",
+    "test:watch": "react-app-rewired test --env=jsdom",
+    "test:coverage": "npm test -- --coverage && codecov",
     "clean": "rimraf lib",
     "build:es6": "cross-env NODE_ENV=production babel src/withStyledClassNames.js --out-dir lib --ignore test.js",
     "prebuild": "run-p test clean",
@@ -39,6 +46,16 @@
   "babel": {
     "presets": [
       "react-app"
+    ]
+  },
+  "jest": {
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ],
+    "collectCoverageFrom": [
+      "/**/*.{js,jsx}",
+      "!src/index.{js,jsx}",
+      "!src/shim.js"
     ]
   }
 }

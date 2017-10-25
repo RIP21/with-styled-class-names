@@ -1,6 +1,6 @@
 # withStyledClassNames 🤡 [![npm version](https://badge.fury.io/js/with-styled-class-names.svg)](https://badge.fury.io/js/with-styled-class-names)
 
-This is a tiny helpful utility function for `styled-components` which helps 
+This is a tiny (666 bytes gzipped) zero dependency helpful utility function for `styled-components` which helps 
 to override 3rd parties components with custom `className` props for their deep
 nested children or different states. For example `activeClassName`, or 
 `inputClassName` etc.
@@ -54,16 +54,22 @@ const Component = ({
   className,
   nestedClassName,
   anotherNestedClassName,
+  objectClassNamesList = { first: {}, second: {} },
   ...props
-}) => (
-  <div className={className} {...props}>
-    {"Root"}
-    <div className={nestedClassName}>
-      {"Nested One Level"}
-      <div className={anotherNestedClassName}>Another nested</div>
+}) => {
+  const { first, second } = objectClassNamesList
+  return (
+    <div className={className} {...props}>
+      {'Root'}
+      <div className={nestedClassName}>
+        {'Nested One Level'}
+        <div className={anotherNestedClassName}>Another nested</div>
+        <div className={first}>Another first</div>
+        <div className={second}>Another second</div>
+      </div>
     </div>
-  </div>
-);
+  )
+}
 
 // styled-component which from you would like to derive styles
 const DerivedFromStyledComponent = styled.div`
@@ -86,9 +92,15 @@ const StyledComponent = withStyledClassNames({
     color: white;
     background: blue;
     border: ${p => p.color} 8px solid;
-  `
+  `,
+  // Nested 1 lvl deep classNamesProps supported too (like react-modal)
+  objectClassNamesList: {
+    first: `background: red;`,
+    second: DerivedFromStyledComponent,
+  }
   // Here is the styles of the wrapper. So the one that will come to className
-  // as if you call styled(Component)``
+  // as if you call styled(Component)``, also you can pass (StyledComponent) 
+  // to derive styles from it, as you would call StyledComponent.withComponent(Component)
 }, Component)`
   background: black;
   color: ${p => p.color};
