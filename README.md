@@ -1,5 +1,5 @@
 # withStyledClassNames 🤡 
-[![npm version](https://badge.fury.io/js/with-styled-class-names.svg)](https://badge.fury.io/js/with-styled-class-names) [![codecov](https://codecov.io/gh/RIP21/with-styled-class-names/branch/master/graph/badge.svg)](https://codecov.io/gh/RIP21/with-styled-class-names)
+[![npm version](https://badge.fury.io/js/with-styled-class-names.svg)](https://badge.fury.io/js/with-styled-class-names) [![codecov](https://codecov.io/gh/RIP21/with-styled-class-names/branch/master/graph/badge.svg)](https://codecov.io/gh/RIP21/with-styled-class-names) [![Build Status](https://travis-ci.org/RIP21/with-styled-class-names.svg?branch=master)](https://travis-ci.org/RIP21/with-styled-class-names)
 
 This is a tiny (666 bytes gzipped) zero dependency helpful utility function for `styled-components` which helps 
 to override 3rd parties components with custom `className` props for their deep
