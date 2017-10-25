@@ -50,34 +50,13 @@ const injectControlledClassNames = (stylesMap, Component, keyToNest) =>
     `
   }, Component)
 
-function buildComponent(stringsOrSC, ...interpolations) {
-  const stylesMap = this.stylesMap
-  const Component = this.Component
-  const isTaggedTemplateLiteral =
-    (stringsOrSC != null && stringsOrSC.length > 0) ||
-    (stringsOrSC != null && interpolations.length > 0)
-  const isStyledComponent =
-    stringsOrSC != null && stringsOrSC.name === 'StyledComponent'
-
-  const RootComponent = isTaggedTemplateLiteral
-    ? styled(Component)(stringsOrSC, interpolations)
-    : isStyledComponent ? stringsOrSC.withComponent(Component) : Component
-
-  return injectControlledClassNames(stylesMap, RootComponent)
-}
-
 function withStyledClassNames(stylesMap, Component) {
-  const that = this
   const isComponentPassed = !!Component
-    ? (that.Component = Component) && true
-    : false
-  that.stylesMap = stylesMap
   return isComponentPassed
-    ? buildComponent.bind(that)
+    ? injectControlledClassNames(stylesMap, styled(Component)``)
     : Component => {
-        that.Component = Component
-        return buildComponent.bind(that)
+        return injectControlledClassNames(stylesMap, styled(Component)``)
       }
 }
 
-export default withStyledClassNames.bind({})
+export default withStyledClassNames

@@ -1,6 +1,6 @@
 {
   "name": "with-styled-class-names",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "description": "Tiny utility function for styled-components helps to override 3rd parties components with custom className props for their deep nested children or different states",
   "main": "./src/withStyledClassNames.js",
   "peerDependencies": {

@@ -36,27 +36,25 @@ const DeriveStyles = styled.div`
 
 describe('withStyledClassNames', () => {
   test('Style container', () => {
-    const WithClassNames = withStyledClassNames({}, Component)`background: red;`
+    const WithClassNames = withStyledClassNames({}, Component)
+      .extend`background: red;`
     const rendered = shallow(<WithClassNames />)
     expect(rendered).toHaveStyleRule('background', 'red')
   })
 
   test('Style container and curried', () => {
-    const WithClassNames = withStyledClassNames({})(Component)`background: red;`
+    const WithClassNames = withStyledClassNames({})(Component)
+      .extend`background: red;`
     const rendered = shallow(<WithClassNames />)
     expect(rendered).toHaveStyleRule('background', 'red')
   })
 
   test('Style container by deriving styles of other styled-component', () => {
-    const WithClassNames = withStyledClassNames({}, Component)(DeriveStyles)
-    const rendered = shallow(<WithClassNames />)
+    const WithClassNames = DeriveStyles.withComponent(
+      withStyledClassNames({}, Component),
+    )
+    const rendered = mount(<WithClassNames />)
     expect(rendered).toHaveStyleRule('background', 'aliceblue')
-  })
-
-  test('Do not style container if empty', () => {
-    const WithClassNames = withStyledClassNames({}, Component)()
-    const rendered = shallow(<WithClassNames />)
-    expect(rendered).toHaveProp('className', undefined)
   })
 
   test('To not override className if already provided', () => {
@@ -65,10 +63,10 @@ describe('withStyledClassNames', () => {
         className: `background: red;`,
       },
       Component,
-    )`background: blue;`
-    const rendered = shallow(<WithClassNames />)
+    )
+    const rendered = mount(<WithClassNames />).find('#root')
     expect(rendered).toHaveProp('className')
-    expect(rendered).not.toHaveStyleRule('background', 'blue')
+    expect(rendered).toHaveStyleRule('background', 'red')
   })
 
   test('To provide nested props', () => {
@@ -77,7 +75,7 @@ describe('withStyledClassNames', () => {
         nestedClassName: `background: red;`,
       },
       Component,
-    )()
+    )
     const rendered = mount(<WithClassNames />)
     const nested = rendered.find('#nestedClassName')
     expect(nested).toHaveProp('className')
@@ -93,16 +91,12 @@ describe('withStyledClassNames', () => {
         },
       },
       Component,
-    )`background: blue`
+    )
     const rendered = mount(<WithClassNames />)
     const first = rendered.find('#first')
     const second = rendered.find('#second')
-    const root = rendered.find('#root')
     expect(first).toMatchSnapshot()
     expect(second).toMatchSnapshot()
-    expect(root).toMatchSnapshot()
-    expect(first).toHaveProp('className')
-    expect(root).toHaveStyleRule('background', 'blue')
     expect(first).toHaveProp('className')
     expect(first).toHaveStyleRule('background', 'yellow')
     expect(second).toHaveProp('className')
@@ -125,22 +119,14 @@ describe('withStyledClassNames', () => {
         },
       },
       Component,
-    )(
-      styled.div`
-        background: blue;
-      `,
     )
     const rendered = mount(<WithClassNames />)
-    const root = rendered.find('#root')
     const nestedClassName = rendered.find('#nestedClassName')
     const first = rendered.find('#first')
     const second = rendered.find('#second')
-    expect(root).toMatchSnapshot()
     expect(nestedClassName).toMatchSnapshot()
     expect(first).toMatchSnapshot()
     expect(second).toMatchSnapshot()
-    expect(root).toHaveProp('className')
-    expect(root).toHaveStyleRule('background', 'blue')
     expect(nestedClassName).toHaveProp('className')
     expect(nestedClassName).toHaveStyleRule('background', 'red')
     expect(first).toHaveProp('className')
@@ -165,21 +151,15 @@ describe('withStyledClassNames', () => {
         },
       },
       Component,
-    )`
-        ${p => p.bool && 'background: blue;'}
-      `
+    )
 
     const rendered = mount(<WithClassNames bool />)
-    const root = rendered.find('#root')
     const nestedClassName = rendered.find('#nestedClassName')
     const first = rendered.find('#first')
     const second = rendered.find('#second')
-    expect(root).toMatchSnapshot()
     expect(nestedClassName).toMatchSnapshot()
     expect(first).toMatchSnapshot()
     expect(second).toMatchSnapshot()
-    expect(root).toHaveProp('className')
-    expect(root).toHaveStyleRule('background', 'blue')
     expect(nestedClassName).toHaveProp('className')
     expect(nestedClassName).toHaveStyleRule('background', 'red')
     expect(first).toHaveProp('className')

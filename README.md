@@ -36,7 +36,8 @@ const StyledComponent = withStyledClassNames({
   inputClassName: css`
     color: ${p => p.primary && `red`};
   `
-}, WithNestedClassNames)`
+  //Extend hack to immediately style container itself (hence default className prop)
+}, WithNestedClassNames).extend`
   margin: 2px;
   background: blue;
 `
@@ -102,7 +103,7 @@ const StyledComponent = withStyledClassNames({
   // Here is the styles of the wrapper. So the one that will come to className
   // as if you call styled(Component)``, also you can pass (StyledComponent) 
   // to derive styles from it, as you would call StyledComponent.withComponent(Component)
-}, Component)`
+}, Component).extend`
   background: black;
   color: ${p => p.color};
 `;
@@ -112,32 +113,42 @@ const StyledComponent = withStyledClassNames({
 ## API
 
 ### withStyledClassNames
-Curried for first two parameters `withStyledClassNames({}, Comp) or withStyledClassNames({})(Comp)` is possible.
-Wrapper styles, third parameter, need to be called explicitly with
-tagged template literal like `withStyledClassNames({})(Comp)`` ` or with StyledComponent from which
-to derive styles like `withStyledClassNames({})(Comp)(StyledComponent)`
+Curried `withStyledClassNames({}, Comp) or withStyledClassNames({})(Comp)` is possible.
+Returns styled-component, so call .extend is possible and will style main container.
 
-styledMap: `ClassNamesProps: Object(key: classNameProp, value: TemplateLiteralCSS/StyledComponent)`   
-Component: `Any React Component`  
-wrapperTemplate: `TemplateLiteralCSS/StyledComponent`  
+Arguments:
+ * styledMap: `ClassNamesProps: Object(key: classNameProp, value: TemplateLiteralCSS/StyledComponent)`   
+ * Component: `Any React Component`  
+
+Returns: `StyledComponent`
 ```
 // All possible combintaions
 
 withStyledClassNames(
   ClassNamesProps, 
   Component
-)(StyledComponent)
+)
 
-withStyledClassNames(
-  ClassNamesProps, 
-  Component
-)`TemplateLiteralCSS`
-
-withStyledClassNames(ClassNamesProps)(Component)(TemplateLiteralCSS/StyledComponent)
+withStyledClassNames(ClassNamesProps)(Component)
 ```
+
+## Hacks and hints
+Function return StyledComponent, so you can continue chaining its functions like
+```jsx harmony
+withStyledClassNames({}, Component).extend`background: red;`
+```
+To style container. And then to extend it further if you will export this component to outside world.
+Hence `withComponent` and other handy styled reusage functions are here.
+
+Another option to style main container is by using className prop like the others.
+```jsx harmony
+withStyledClassNames({ className: `background: red` }, Component)
+```
+Note that you need to use `css` helper function from styled-component in this case, to
+have interpolation functions to work. (if you know how to solve that please PR)
 
 ## Known issues
 
 If you want to interpolations to work for nested classNames please use `css` from 
-`styled-components` for them to work like in the example here. PR Welcome to fix that 😍
+`styled-components` like in the examples here. PR Welcome to fix that 😍
 I gave up trying 😇

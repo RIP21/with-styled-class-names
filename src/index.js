@@ -54,7 +54,7 @@ const StyledComponent = withStyledClassNames(
     },
   },
   Component,
-)()
+)
 
 const Curried = withStyledClassNames({
   nestedClassName: DerivedFromStyledComponent,
@@ -63,7 +63,7 @@ const Curried = withStyledClassNames({
     background: blue;
     border: ${p => p.color} 8px solid;
   `,
-})(Component)(DerivedFromStyledComponent)
+})(Component)
 
 const App = () => (
   <div>

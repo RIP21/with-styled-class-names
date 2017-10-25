@@ -2,55 +2,6 @@
 
 exports[`withStyledClassNames All levels could be styled by another styled-component 1`] = `
 .c0 {
-  background: blue;
-}
-
-.c1 {
-  background: red;
-}
-
-.c2 {
-  background: yellow;
-}
-
-.c3 {
-  background: purple;
-}
-
-<div
-  className="c0"
-  id="root"
->
-  Root
-  <div
-    className="c1"
-    id="nestedClassName"
-  >
-    Nested One Level
-    <div
-      className={undefined}
-      id="anotherNestedClassName"
-    >
-      Another nested
-    </div>
-    <div
-      className="c2"
-      id="first"
-    >
-      Another first
-    </div>
-    <div
-      className="c3"
-      id="second"
-    >
-      Another second
-    </div>
-  </div>
-</div>
-`;
-
-exports[`withStyledClassNames All levels could be styled by another styled-component 2`] = `
-.c0 {
   background: red;
 }
 
@@ -88,7 +39,7 @@ exports[`withStyledClassNames All levels could be styled by another styled-compo
 </div>
 `;
 
-exports[`withStyledClassNames All levels could be styled by another styled-component 3`] = `
+exports[`withStyledClassNames All levels could be styled by another styled-component 2`] = `
 .c0 {
   background: yellow;
 }
@@ -101,7 +52,7 @@ exports[`withStyledClassNames All levels could be styled by another styled-compo
 </div>
 `;
 
-exports[`withStyledClassNames All levels could be styled by another styled-component 4`] = `
+exports[`withStyledClassNames All levels could be styled by another styled-component 3`] = `
 .c0 {
   background: purple;
 }
@@ -116,56 +67,6 @@ exports[`withStyledClassNames All levels could be styled by another styled-compo
 
 exports[`withStyledClassNames All levels props dependent styling working 1`] = `
 .c0 {
-  background: blue;
-}
-
-.c1 {
-  background: red;
-}
-
-.c2 {
-  background: yellow;
-}
-
-.c3 {
-  background: purple;
-}
-
-<div
-  bool={true}
-  className="c0"
-  id="root"
->
-  Root
-  <div
-    className="c1"
-    id="nestedClassName"
-  >
-    Nested One Level
-    <div
-      className={undefined}
-      id="anotherNestedClassName"
-    >
-      Another nested
-    </div>
-    <div
-      className="c2"
-      id="first"
-    >
-      Another first
-    </div>
-    <div
-      className="c3"
-      id="second"
-    >
-      Another second
-    </div>
-  </div>
-</div>
-`;
-
-exports[`withStyledClassNames All levels props dependent styling working 2`] = `
-.c0 {
   background: red;
 }
 
@@ -203,7 +104,7 @@ exports[`withStyledClassNames All levels props dependent styling working 2`] = `
 </div>
 `;
 
-exports[`withStyledClassNames All levels props dependent styling working 3`] = `
+exports[`withStyledClassNames All levels props dependent styling working 2`] = `
 .c0 {
   background: yellow;
 }
@@ -216,7 +117,7 @@ exports[`withStyledClassNames All levels props dependent styling working 3`] = `
 </div>
 `;
 
-exports[`withStyledClassNames All levels props dependent styling working 4`] = `
+exports[`withStyledClassNames All levels props dependent styling working 3`] = `
 .c0 {
   background: purple;
 }
@@ -252,50 +153,5 @@ exports[`withStyledClassNames To provide one level nested props 2`] = `
   id="second"
 >
   Another second
-</div>
-`;
-
-exports[`withStyledClassNames To provide one level nested props 3`] = `
-.c0 {
-  background: blue;
-}
-
-.c1 {
-  background: yellow;
-}
-
-.c2 {
-  background: purple;
-}
-
-<div
-  className="c0"
-  id="root"
->
-  Root
-  <div
-    className={undefined}
-    id="nestedClassName"
-  >
-    Nested One Level
-    <div
-      className={undefined}
-      id="anotherNestedClassName"
-    >
-      Another nested
-    </div>
-    <div
-      className="c1"
-      id="first"
-    >
-      Another first
-    </div>
-    <div
-      className="c2"
-      id="second"
-    >
-      Another second
-    </div>
-  </div>
 </div>
 `;
