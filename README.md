@@ -100,21 +100,17 @@ const StyledComponent = withStyledClassNames({
     first: `background: red;`,
     second: DerivedFromStyledComponent,
   }
-  // Here is the styles of the wrapper. So the one that will come to className
-  // as if you call styled(Component)``, also you can pass (StyledComponent) 
-  // to derive styles from it, as you would call StyledComponent.withComponent(Component)
 }, Component).extend`
   background: black;
   color: ${p => p.color};
 `;
-//Note that if you don't need wrapper style, just call nothing ()
 ```
 
 ## API
 
 ### withStyledClassNames
-Curried `withStyledClassNames({}, Comp) or withStyledClassNames({})(Comp)` is possible.
-Returns styled-component, so call .extend is possible and will style main container.
+Curried `withStyledClassNames({}, Comp)` or `withStyledClassNames({})(Comp)` is possible.
+Returns styled-component, so call .extend is possible and it will style root/container of the component.
 
 Arguments:
  * styledMap: `ClassNamesProps: Object(key: classNameProp, value: TemplateLiteralCSS/StyledComponent)`   
