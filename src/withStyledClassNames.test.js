@@ -3,16 +3,17 @@ import styled, { css } from 'styled-components'
 import { mount } from 'enzyme'
 import withStyledClassNames from './withStyledClassNames'
 
-const Component = ({
-  className,
-  nestedClassName,
-  anotherNestedClassName,
-  objectClassNamesList = { first: {}, second: {} },
-  ...props
-}) => {
+const Component = props => {
+  const {
+    className,
+    nestedClassName,
+    anotherNestedClassName,
+    objectClassNamesList = { first: {}, second: {} },
+    ...rest
+  } = props
   const { first, second } = objectClassNamesList
   return (
-    <div id="root" className={className} {...props}>
+    <div id="root" className={className} {...rest}>
       {'Root'}
       <div id="nestedClassName" className={nestedClassName}>
         {'Nested One Level'}
@@ -28,6 +29,23 @@ const Component = ({
       </div>
     </div>
   )
+}
+
+class Container extends React.PureComponent {
+  state = { bool: false }
+
+  onClick = () => {
+    this.setState({ bool: true })
+  }
+
+  render() {
+    const { children, ...rest } = this.props
+    return React.cloneElement(children, {
+      onClick: this.onClick,
+      ...rest,
+      ...this.state,
+    })
+  }
 }
 
 const DeriveStyles = styled.div`
@@ -166,5 +184,30 @@ describe('withStyledClassNames', () => {
     expect(first).toHaveStyleRule('background', 'yellow')
     expect(second).toHaveProp('className')
     expect(second).toHaveStyleRule('background', 'purple')
+  })
+
+  test('Style changes on prop change', () => {
+    const WithClassNames = withStyledClassNames(
+      {
+        nestedClassName: css`
+          ${p => (p.bool ? 'background: red;' : 'background: blue')};
+        `,
+      },
+      Component,
+    )
+    const rendered = mount(
+      <Container>
+        <WithClassNames />
+      </Container>,
+    )
+    expect(rendered.find('#nestedClassName')).toHaveStyleRule(
+      'background',
+      'blue',
+    )
+    rendered.simulate('click')
+    expect(rendered.find('#nestedClassName')).toHaveStyleRule(
+      'background',
+      'red',
+    )
   })
 })

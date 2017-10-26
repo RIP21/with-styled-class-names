@@ -69,7 +69,7 @@ const Curried = withStyledClassNames({
 
 const App = () => (
   <div>
-    <StyledComponent color="green" purple="purple" />
+    <StyledComponent color="green" purple="purple" font />
     <Curried color="yellow" purple="blue" />
   </div>
 )
