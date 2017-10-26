@@ -1,6 +1,6 @@
 import React from 'react'
 import styled, { css } from 'styled-components'
-import { shallow, mount } from 'enzyme'
+import { mount } from 'enzyme'
 import withStyledClassNames from './withStyledClassNames'
 
 const Component = ({
@@ -38,14 +38,14 @@ describe('withStyledClassNames', () => {
   test('Style container', () => {
     const WithClassNames = withStyledClassNames({}, Component)
       .extend`background: red;`
-    const rendered = shallow(<WithClassNames />)
+    const rendered = mount(<WithClassNames />).find('#root')
     expect(rendered).toHaveStyleRule('background', 'red')
   })
 
   test('Style container and curried', () => {
     const WithClassNames = withStyledClassNames({})(Component)
       .extend`background: red;`
-    const rendered = shallow(<WithClassNames />)
+    const rendered = mount(<WithClassNames />).find('#root')
     expect(rendered).toHaveStyleRule('background', 'red')
   })
 
@@ -53,7 +53,7 @@ describe('withStyledClassNames', () => {
     const WithClassNames = DeriveStyles.withComponent(
       withStyledClassNames({}, Component),
     )
-    const rendered = mount(<WithClassNames />)
+    const rendered = mount(<WithClassNames />).find('#root')
     expect(rendered).toHaveStyleRule('background', 'aliceblue')
   })
 

@@ -3,7 +3,6 @@ import { render } from 'react-dom'
 import styled, { css } from 'styled-components'
 
 import withStyledClassNames from './withStyledClassNames'
-import { withClasses } from './withStyledClassNames'
 
 const Component = ({
   nestedClassName,
@@ -39,7 +38,7 @@ const Derived = styled.div`
   background: white;
 `
 
-const StyledComponent = withClasses(
+const StyledComponent = withStyledClassNames(
   {
     nestedClassName: DerivedFromStyledComponent,
     anotherNestedClassName: css`
@@ -59,7 +58,7 @@ const StyledComponent = withClasses(
   Component,
 ).extend`background: red;`
 
-const Curried = withClasses({
+const Curried = withStyledClassNames({
   nestedClassName: DerivedFromStyledComponent,
   anotherNestedClassName: css`
     color: white;
