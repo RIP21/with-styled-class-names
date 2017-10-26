@@ -3,15 +3,17 @@ import { render } from 'react-dom'
 import styled, { css } from 'styled-components'
 
 import withStyledClassNames from './withStyledClassNames'
+import { withClasses } from './withStyledClassNames'
 
 const Component = ({
-  className,
   nestedClassName,
   anotherNestedClassName,
-  objectClassNamesList = { first: {}, second: {} },
+  objectClassNameList,
+  className,
   ...props
 }) => {
-  const { first, second } = objectClassNamesList
+  const first = objectClassNameList && objectClassNameList.first
+  const second = objectClassNameList && objectClassNameList.second
   return (
     <div className={className} {...props}>
       {'Root'}
@@ -37,15 +39,16 @@ const Derived = styled.div`
   background: white;
 `
 
-const StyledComponent = withStyledClassNames(
+const StyledComponent = withClasses(
   {
     nestedClassName: DerivedFromStyledComponent,
     anotherNestedClassName: css`
       color: white;
       background: blue;
       border: ${p => p.color} 8px solid;
+      ${p => p.font && `font-size: 20px`};
     `,
-    objectClassNameListProp: {
+    objectClassNameList: {
       first: css`
         background: black;
         border: ${p => p.color} 8px solid;
@@ -54,16 +57,16 @@ const StyledComponent = withStyledClassNames(
     },
   },
   Component,
-)
+).extend`background: red;`
 
-const Curried = withStyledClassNames({
+const Curried = withClasses({
   nestedClassName: DerivedFromStyledComponent,
   anotherNestedClassName: css`
     color: white;
     background: blue;
     border: ${p => p.color} 8px solid;
   `,
-})(Component)
+})(Component).extend`background: #0074D9`
 
 const App = () => (
   <div>
