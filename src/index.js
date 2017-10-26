@@ -5,13 +5,14 @@ import styled, { css } from 'styled-components'
 import withStyledClassNames from './withStyledClassNames'
 
 const Component = ({
-  className,
   nestedClassName,
   anotherNestedClassName,
-  objectClassNamesList = { first: {}, second: {} },
+  objectClassNameList,
+  className,
   ...props
 }) => {
-  const { first, second } = objectClassNamesList
+  const first = objectClassNameList && objectClassNameList.first
+  const second = objectClassNameList && objectClassNameList.second
   return (
     <div className={className} {...props}>
       {'Root'}
@@ -44,8 +45,9 @@ const StyledComponent = withStyledClassNames(
       color: white;
       background: blue;
       border: ${p => p.color} 8px solid;
+      ${p => p.font && `font-size: 20px`};
     `,
-    objectClassNameListProp: {
+    objectClassNameList: {
       first: css`
         background: black;
         border: ${p => p.color} 8px solid;
@@ -54,7 +56,7 @@ const StyledComponent = withStyledClassNames(
     },
   },
   Component,
-)
+).extend`background: red;`
 
 const Curried = withStyledClassNames({
   nestedClassName: DerivedFromStyledComponent,
@@ -63,11 +65,11 @@ const Curried = withStyledClassNames({
     background: blue;
     border: ${p => p.color} 8px solid;
   `,
-})(Component)
+})(Component).extend`background: #0074D9`
 
 const App = () => (
   <div>
-    <StyledComponent color="green" purple="purple" />
+    <StyledComponent color="green" purple="purple" font />
     <Curried color="yellow" purple="blue" />
   </div>
 )

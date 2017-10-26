@@ -1,61 +1,136 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const withCustomClassNameProp = (Component, propClass, keyToNest) => ({
-  className,
-  ...rest
-}) => {
-  const classNamesAlreadySet = keyToNest
-    ? rest[keyToNest] ? rest[keyToNest] : {}
-    : undefined
-  const objToMerge = keyToNest ? { [propClass]: className } : undefined
-  const merged = { ...classNamesAlreadySet, ...objToMerge }
-  const props = keyToNest
-    ? { ...rest, [keyToNest]: merged }
-    : { ...rest, [propClass]: className }
-  return <Component {...props} />
+function Aux(props) {
+  return props.children
 }
 
-const injectControlledClassNames = (stylesMap, Component, keyToNest) =>
-  Object.entries(stylesMap).reduce((ResultComponent, entry) => {
-    const customClassNameProp = entry[0]
-    const tagOrStyledComponent = entry[1]
-    if (
-      tagOrStyledComponent &&
-      tagOrStyledComponent.name === 'StyledComponent'
-    ) {
-      return tagOrStyledComponent.withComponent(
-        withCustomClassNameProp(
-          ResultComponent,
-          customClassNameProp,
-          keyToNest,
-        ),
-      )
-    }
-    if (
-      tagOrStyledComponent &&
-      !(tagOrStyledComponent instanceof Array) &&
-      typeof tagOrStyledComponent !== 'string'
-    ) {
-      return injectControlledClassNames(
-        tagOrStyledComponent,
-        ResultComponent,
-        customClassNameProp,
-      )
-    }
-    return styled(
-      withCustomClassNameProp(ResultComponent, customClassNameProp, keyToNest),
-    )`
-      ${tagOrStyledComponent};
-    `
-  }, Component)
+class ClassNamesLifter extends React.PureComponent {
+  componentWillMount() {
+    this.props.onLiftClassName(
+      this.props.className,
+      this.props.classNameProp,
+      this.props.nestToProp,
+    )
+  }
 
-function withStyledClassNames(stylesMap, Component) {
+  componentWillReceiveProps(newProps) {
+    if (newProps.className !== this.props.className) {
+      newProps.onLiftClassName(
+        newProps.className,
+        newProps.classNameProp,
+        this.props.nestToProp,
+      )
+    }
+  }
+
+  render() {
+    return null
+  }
+}
+
+const isStyledComponent = value => value && value.name === 'StyledComponent'
+const isObject = value =>
+  value && !(value instanceof Array) && typeof value !== 'string'
+
+class ClassNamesHolder extends React.PureComponent {
+  constructor(props) {
+    super(props)
+    this.Styles = this.generateStylesLifters(props.stylesMap)
+  }
+
+  buildStyleLifter = (customClassNameProp, nestToProp) => props => (
+    <ClassNamesLifter
+      classNameProp={customClassNameProp}
+      onLiftClassName={this.liftClassName}
+      nestToProp={nestToProp}
+      {...props}
+    />
+  )
+
+  createStyleWithSC = (value, customClassNameProp, nestToProp) => {
+    return value.withComponent(
+      this.buildStyleLifter(customClassNameProp, nestToProp),
+    )
+  }
+
+  createStyleWithTag = (value, customClassNameProp, nestToProp) => {
+    return styled(this.buildStyleLifter(customClassNameProp, nestToProp))`
+      ${value};
+    `
+  }
+
+  generateStylesLifters = stylesMap => {
+    const StylesLifters = []
+    Object.entries(stylesMap).forEach(entry => {
+      const customClassNameProp = entry[0]
+      const value = entry[1]
+      if (isStyledComponent(value)) {
+        StylesLifters.push(this.createStyleWithSC(value, customClassNameProp))
+      } else if (isObject(value)) {
+        Object.entries(value).forEach(
+          style =>
+            isStyledComponent(style[1])
+              ? StylesLifters.push(
+                  this.createStyleWithSC(
+                    style[1],
+                    style[0],
+                    customClassNameProp,
+                  ),
+                )
+              : StylesLifters.push(
+                  this.createStyleWithTag(
+                    style[1],
+                    style[0],
+                    customClassNameProp,
+                  ),
+                ),
+        )
+      } else {
+        StylesLifters.push(this.createStyleWithTag(value, customClassNameProp))
+      }
+    })
+    return StylesLifters
+  }
+
+  renderStyles = () => {
+    return this.Styles.map(SC => <SC {...this.props} />)
+  }
+
+  liftClassName = (className, nestedProp, nestToProp) => {
+    if (!nestToProp) {
+      this.setState({ [nestedProp]: className })
+    } else {
+      this.setState(prevState => {
+        const previousState = prevState ? prevState[nestToProp] : {}
+        return {
+          [nestToProp]: { ...previousState, [nestedProp]: className },
+        }
+      })
+    }
+  }
+
+  render() {
+    return (
+      <Aux>
+        {this.renderStyles()}
+        <this.props.component {...this.props} {...this.state} />
+      </Aux>
+    )
+  }
+}
+
+const buildClassNamesHolder = (stylesMap, Component) =>
+  styled(props => (
+    <ClassNamesHolder stylesMap={stylesMap} component={Component} {...props} />
+  ))``
+
+export const withStyledClassNames = (stylesMap, Component) => {
   const isComponentPassed = !!Component
   return isComponentPassed
-    ? injectControlledClassNames(stylesMap, styled(Component)``)
+    ? buildClassNamesHolder(stylesMap, Component)
     : Component => {
-        return injectControlledClassNames(stylesMap, styled(Component)``)
+        return buildClassNamesHolder(stylesMap, Component)
       }
 }
 
