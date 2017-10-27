@@ -84,8 +84,8 @@ const DerivedFromStyledComponent = styled.div`
 `
 
 // Usage 
-// arg0: Component to style
-// arg1: (key: NestedClassNameProp, value: Tagged Template Literal/StyledComponent)
+// arg0: (key: NestedClassNameProp, value: Tagged Template Literal/StyledComponent)
+// arg1: Component to style
 const StyledComponent = withStyledClassNames({
   // This className will be populated with class of the DerivedFromStyledComponent  
   nestedClassName: DerivedFromStyledComponent,
