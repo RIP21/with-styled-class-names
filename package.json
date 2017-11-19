@@ -1,7 +1,7 @@
 {
   "name": "with-styled-class-names",
   "description": "Tiny utility function for styled-components helps to override 3rd parties components with custom className props for their deep nested children or different states",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "private": true,
   "main": "./src/withStyledClassNames.js",
   "peerDependencies": {
@@ -10,7 +10,11 @@
     "styled-components": "^2.0.0"
   },
   "devDependencies": {
+    "babel-preset-env": "^1.6.1",
+    "babel-jest": "^21.2.0",
     "babel-cli": "^6.26.0",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "jest": "^21.2.1",
     "babel-plugin-styled-components": "^1.2.0",
     "codecov": "^3.0.0",
     "cross-env": "^5.0.5",
@@ -32,8 +36,8 @@
   },
   "scripts": {
     "start": "react-app-rewired start",
-    "test": "cross-env CI=true react-app-rewired test --env=jsdom",
-    "test:watch": "react-app-rewired test --env=jsdom",
+    "test": "jest --ci --env=jsdom",
+    "test:watch": "jest --watch --env=jsdom",
     "test:coverage": "npm test -- --coverage && codecov",
     "clean": "rimraf lib",
     "build:es6": "cross-env NODE_ENV=production babel src/withStyledClassNames.js --out-dir lib --ignore test.js",
@@ -45,16 +49,32 @@
   },
   "babel": {
     "presets": [
-      "react-app"
-    ]
+      [
+        "env",
+        {
+          "targets": {
+            "node": "6.10"
+          }
+        }
+      ],
+      [
+        "react"
+      ]
+    ], "plugins": ["transform-class-properties", "transform-object-rest-spread"]
   },
   "jest": {
+    "moduleDirectories": [
+      "node_modules",
+      "src"
+    ],
     "snapshotSerializers": [
       "enzyme-to-json/serializer"
     ],
+    "setupTestFrameworkScriptFile": "./src/setupTests.js",
     "collectCoverageFrom": [
-      "/**/*.{js,jsx}",
+      "src/**/*.{js,jsx}",
       "!src/index.{js,jsx}",
+      "!src/setupTests.js",
       "!src/shim.js"
     ]
   }
