@@ -6,7 +6,7 @@ module.exports = function override(config, env) {
   rewireResolve(config)
   rewireEslint(config)
   rewireSc(config, env, {
-    displayName: true,
+    displayName: false,
   })
   return config
 }

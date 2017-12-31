@@ -62,28 +62,18 @@ class ClassNamesHolder extends React.PureComponent {
 
   generateStylesLifters = stylesMap => {
     const StylesLifters = []
-    Object.entries(stylesMap).forEach(entry => {
-      const customClassNameProp = entry[0]
-      const value = entry[1]
+    Object.entries(stylesMap).forEach(([customClassNameProp, value]) => {
       if (isStyledComponent(value)) {
         StylesLifters.push(this.createStyleWithSC(value, customClassNameProp))
       } else if (isObject(value)) {
         Object.entries(value).forEach(
-          style =>
-            isStyledComponent(style[1])
+          ([key, value]) =>
+            isStyledComponent(value)
               ? StylesLifters.push(
-                  this.createStyleWithSC(
-                    style[1],
-                    style[0],
-                    customClassNameProp,
-                  ),
+                  this.createStyleWithSC(value, key, customClassNameProp),
                 )
               : StylesLifters.push(
-                  this.createStyleWithTag(
-                    style[1],
-                    style[0],
-                    customClassNameProp,
-                  ),
+                  this.createStyleWithTag(value, key, customClassNameProp),
                 ),
         )
       } else {
@@ -94,7 +84,7 @@ class ClassNamesHolder extends React.PureComponent {
   }
 
   renderStyles = () => {
-    return this.Styles.map(SC => <SC {...this.props} />)
+    return this.Styles.map((SC, index) => <SC key={index} {...this.props} />)
   }
 
   liftClassName = (className, nestedProp, nestToProp) => {
